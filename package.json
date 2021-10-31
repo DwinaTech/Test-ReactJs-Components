@@ -1,0 +1,32 @@
+{
+  "name": "empty-project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "scripts": {
+    "test": "jest",
+    "clean": "rm dist/bundle.js",
+    "start": "parcel src/index.html",
+    "coverage": "jest --collectCoverage",
+    "build-prod": "parcel build src/index.html"
+  },
+  "dependencies": {
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.15.8",
+    "@babel/plugin-transform-runtime": "^7.15.8",
+    "@babel/preset-env": "^7.15.6",
+    "@babel/preset-react": "^7.14.5",
+    "@testing-library/jest-dom": "^5.14.1",
+    "@testing-library/react": "^12.1.1",
+    "@testing-library/react-hooks": "^7.0.2",
+    "babel-jest": "^27.2.5",
+    "jest": "^27.2.4",
+    "parcel-bundler": "^1.12.5"
+  }
+}

@@ -1,0 +1,43 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Users /> renders component 1`] = `
+<div>
+  <div
+    class="users"
+  >
+    <h1>
+      Registered users
+    </h1>
+    <table
+      width="100%"
+    >
+      <thead>
+        <tr>
+          <th>
+            First name
+          </th>
+          <th>
+            Last name
+          </th>
+          <th>
+            Email
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            Mo
+          </td>
+          <td>
+            Dwina
+          </td>
+          <td>
+            b@b.com
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+`;

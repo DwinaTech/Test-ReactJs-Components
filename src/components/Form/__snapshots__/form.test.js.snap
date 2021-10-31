@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Form /> renders component 1`] = `
+<div>
+  <div>
+    <h1>
+      Registration form
+    </h1>
+    <form>
+      <input
+        name="firstName"
+        placeholder="First Name"
+        type="text"
+        value="Mo"
+      />
+      <input
+        name="lastName"
+        placeholder="Last Name"
+        type="text"
+        value="Dwina"
+      />
+      <input
+        name="email"
+        placeholder="Email"
+        type="email"
+        value="b@b.com"
+      />
+      <button
+        class=""
+        type="submit"
+      >
+        Submit
+      </button>
+    </form>
+  </div>
+</div>
+`;
