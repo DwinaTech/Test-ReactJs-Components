@@ -34,6 +34,15 @@ export const useDashboard = () => {
     }
   };
 
+  const handleDelete = async (id) => {
+    try {
+      await axios.delete(`http://localhost:5000/users/${id}`);
+      fetchUsers();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setUser({ ...user, [name]: value });
@@ -45,5 +54,5 @@ export const useDashboard = () => {
     setUser({ firstName: "", lastName: "", email: "", id: "" });
   };
 
-  return { user, users, fetchUsers, handleChange, handleSubmit };
+  return { user, users, fetchUsers, handleDelete, handleChange, handleSubmit };
 };

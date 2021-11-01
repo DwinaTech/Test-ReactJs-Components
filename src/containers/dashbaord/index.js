@@ -4,7 +4,7 @@ import { Users } from "../../components/Users";
 import { useDashboard } from "./hooks";
 
 export const Dashboard = () => {
-  const { user, users, fetchUsers, handleChange, handleSubmit } =
+  const { user, users, handleDelete, fetchUsers, handleChange, handleSubmit } =
     useDashboard();
 
   React.useEffect(() => {
@@ -19,7 +19,7 @@ export const Dashboard = () => {
           handleSubmit={handleSubmit}
           handleChange={handleChange}
         />
-        <Users users={users} />
+        <Users users={users} handleDelete={handleDelete} />
       </div>
     </div>
   );

@@ -1,7 +1,7 @@
 import React from "react";
 import { UserCard } from "./UserCard";
 
-export const Users = ({ users }) => (
+export const Users = ({ users, handleDelete }) => (
   <div className="users">
     <h1>Registered users</h1>
     <table width="100%">
@@ -15,7 +15,7 @@ export const Users = ({ users }) => (
       </thead>
       <tbody>
         {users.map((user) => (
-          <UserCard key={user.id} user={user} />
+          <UserCard handleDelete={handleDelete} key={user.id} user={user} />
         ))}
       </tbody>
     </table>
