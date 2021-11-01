@@ -45,5 +45,5 @@ export const useDashboard = () => {
     setUser({ firstName: "", lastName: "", email: "", id: "" });
   };
 
-  return { user, users, handleChange, handleSubmit };
+  return { user, users, fetchUsers, handleChange, handleSubmit };
 };

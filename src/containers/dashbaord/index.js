@@ -4,7 +4,12 @@ import { Users } from "../../components/Users";
 import { useDashboard } from "./hooks";
 
 export const Dashboard = () => {
-  const { user, users, handleChange, handleSubmit } = useDashboard();
+  const { user, users, fetchUsers, handleChange, handleSubmit } =
+    useDashboard();
+
+  React.useEffect(() => {
+    fetchUsers();
+  }, []);
 
   return (
     <div className="container">
