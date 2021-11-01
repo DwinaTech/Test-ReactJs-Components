@@ -55,5 +55,12 @@ button.disabled {
 .users table tr {
   display: grid;
   margin-bottom: 10px;
-  grid-template-columns: 1fr 1fr 2fr;
+  grid-template-columns: 1fr 1fr 2fr 1fr;
+}
+
+.users table button {
+  cursor: pointer;
+  color: red;
+  border-color: red;
+  border-radius: 4px;
 }

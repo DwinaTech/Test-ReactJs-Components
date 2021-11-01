@@ -6,6 +6,9 @@ export const UserCard = ({ user }) => {
       <td>{user.firstName}</td>
       <td>{user.lastName}</td>
       <td>{user.email}</td>
+      <td>
+        <button>X</button>
+      </td>
     </tr>
   );
 };
