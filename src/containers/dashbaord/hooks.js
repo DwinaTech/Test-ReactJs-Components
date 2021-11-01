@@ -2,7 +2,7 @@ import React from "react";
 import axios from "axios";
 
 export const useDashboard = () => {
-  const userId = new Date().getTime;
+  const userId = new Date().getTime();
 
   const [users, setUsers] = React.useState([]);
 
