@@ -8,6 +8,7 @@ jest.mock("axios", () => ({
   ...jest.requireActual("axios"),
   post: jest.fn(),
   get: jest.fn(),
+  delete: jest.fn(),
 }));
 
 describe("useTasks", () => {
@@ -104,8 +105,8 @@ describe("useTasks", () => {
 
   test("should add userId to each user in users array when call handleSubmit", async () => {
     jest.useFakeTimers();
-    const userId = "01/01/2021";
-    jest.setSystemTime(new Date(userId));
+    const userId = new Date("01/01/2021").getTime();
+    jest.setSystemTime(userId);
 
     const { result } = renderHook(() => useDashboard());
 
@@ -132,6 +133,52 @@ describe("useTasks", () => {
     try {
       const event = { preventDefault: jest.fn() };
       await result.current.handleSubmit(event);
+    } catch (error) {
+      expect(error.message).toEqual(customError.message);
+    }
+  });
+
+  test("should return list of users when call fetchUsers", async () => {
+    const users = [
+      { firstName: "Mo", lastName: "Dwina", email: "b@b.com", id: "1234" },
+    ];
+
+    axios.get.mockImplementationOnce(() => Promise.resolve({ data: users }));
+
+    const { result } = renderHook(() => useDashboard());
+
+    await act(() => {
+      result.current.fetchUsers();
+    });
+
+    await expect(result.current.users).toEqual(users);
+  });
+
+  test("should call post delete method with relevant user Id", async () => {
+    const userId = "1234";
+    const { result } = renderHook(() => useDashboard());
+
+    await act(() => {
+      result.current.handleDelete(userId);
+    });
+
+    await expect(axios.delete).toHaveBeenCalledWith(
+      `http://localhost:5000/users/${userId}`
+    );
+  });
+
+  test("should handle the error when call handleDelete and there is an error occurred", async () => {
+    const userId = "1234";
+    const customError = { message: "There is an error occurred" };
+
+    axios.delete.mockImplementationOnce(() =>
+      Promise.reject(new Error(customError.message))
+    );
+
+    const { result } = renderHook(() => useDashboard());
+
+    try {
+      await result.current.handleDelete(userId);
     } catch (error) {
       expect(error.message).toEqual(customError.message);
     }
