@@ -1,5 +1,14 @@
 import { renderHook, act } from "@testing-library/react-hooks";
 import { useDashboard } from "./hooks";
+import axios from "axios";
+
+jest.spyOn(console, "error").mockImplementation(() => {});
+
+jest.mock("axios", () => ({
+  ...jest.requireActual("axios"),
+  post: jest.fn(),
+  get: jest.fn(),
+}));
 
 describe("useTasks", () => {
   beforeEach(() => {
@@ -27,7 +36,7 @@ describe("useTasks", () => {
     expect(result.current.user.firstName).toEqual(value);
   });
 
-  test("should add user data to users when call handleSubmit", () => {
+  test("should add user data to users when call handleSubmit", async () => {
     const { result } = renderHook(() => useDashboard());
 
     const event1 = { target: { name: "firstName", value: "Mo" } };
@@ -51,16 +60,17 @@ describe("useTasks", () => {
       result.current.handleSubmit(event);
     });
 
-    expect(result.current.users).toEqual([
+    await expect(axios.post).toHaveBeenCalledWith(
+      "http://localhost:5000/users",
       expect.objectContaining({
         firstName: "Mo",
         lastName: "Dwina",
         email: "b@b.com",
-      }),
-    ]);
+      })
+    );
   });
 
-  test("should set initial user to empty strings when call handleSubmit", () => {
+  test("should set initial user to empty strings when call handleSubmit", async () => {
     const { result } = renderHook(() => useDashboard());
 
     const event1 = { target: { name: "firstName", value: "Mo" } };
@@ -84,7 +94,7 @@ describe("useTasks", () => {
       result.current.handleSubmit(event);
     });
 
-    expect(result.current.user).toEqual({
+    await expect(result.current.user).toEqual({
       firstName: "",
       lastName: "",
       email: "",
@@ -92,7 +102,7 @@ describe("useTasks", () => {
     });
   });
 
-  test("should add userId to each user in users array when call handleSubmit", () => {
+  test("should add userId to each user in users array when call handleSubmit", async () => {
     jest.useFakeTimers();
     const userId = "01/01/2021";
     jest.setSystemTime(new Date(userId));
@@ -104,6 +114,26 @@ describe("useTasks", () => {
       result.current.handleSubmit(event);
     });
 
-    expect(result.current.users[0].id).toEqual(userId);
+    await expect(axios.post).toHaveBeenCalledWith(
+      "http://localhost:5000/users",
+      expect.objectContaining({
+        id: userId,
+      })
+    );
+  });
+
+  test("should handle addUser error when call handleSubmit and there is an error", async () => {
+    const customError = { message: "There is an error occurred" };
+    axios.post.mockImplementationOnce(() =>
+      Promise.reject(new Error(customError.message))
+    );
+    const { result } = renderHook(() => useDashboard());
+
+    try {
+      const event = { preventDefault: jest.fn() };
+      await result.current.handleSubmit(event);
+    } catch (error) {
+      expect(error.message).toEqual(customError.message);
+    }
   });
 });
