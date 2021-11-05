@@ -1,8 +1,9 @@
 import React from "react";
+import axios from "axios";
 
 export const useDashboard = () => {
   const date = new Date();
-  const userId = date.toLocaleDateString();
+  const userId = date.getTime();
 
   const [users, setUsers] = React.useState([]);
 
@@ -13,6 +14,36 @@ export const useDashboard = () => {
     id: "",
   });
 
+  const fetchUsers = async () => {
+    try {
+      const { data } = await axios.get(`http://localhost:5000/users`);
+      setUsers(data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const addUser = async () => {
+    try {
+      await axios.post(`http://localhost:5000/users`, {
+        ...user,
+        id: userId,
+      });
+      fetchUsers();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleDelete = async (id) => {
+    try {
+      await axios.delete(`http://localhost:5000/users/${id}`);
+      fetchUsers();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setUser({ ...user, [name]: value });
@@ -20,9 +51,9 @@ export const useDashboard = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    addUser();
     setUser({ firstName: "", lastName: "", email: "", id: "" });
-    setUsers([...users, { ...user, id: userId }]);
   };
 
-  return { user, users, handleChange, handleSubmit };
+  return { user, users, fetchUsers, handleDelete, handleChange, handleSubmit };
 };
